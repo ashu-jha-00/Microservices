@@ -1,0 +1,40 @@
+package com.lcwd.rating.controller;
+
+import com.lcwd.rating.entity.Rating;
+import com.lcwd.rating.serivce.RatingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/ratings")
+public class RatingController {
+
+    @Autowired
+    RatingService ratingService;
+
+    @PostMapping
+    public ResponseEntity<Rating> create(@RequestBody Rating rating){
+          return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.create(rating));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Rating>> getRatingsByUserId(@PathVariable String id){
+        return ResponseEntity.ok(ratingService.getRatingByUserId(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Rating>> getRatings(){
+        return ResponseEntity.ok(ratingService.getRating());
+    }
+
+    @GetMapping("/hotels/{hotelId}")
+    public ResponseEntity<List<Rating>> getRatingsByHotelId(@PathVariable String id){
+        return ResponseEntity.ok(ratingService.getRatingByHotelId(id));
+    }
+
+
+}

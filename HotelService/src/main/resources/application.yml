@@ -1,0 +1,19 @@
+server:
+  port: 8082
+
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/Microservice
+#    username: postgres
+#    password: root
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices_hotelservice
+    username: root
+    password: Ashu@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
