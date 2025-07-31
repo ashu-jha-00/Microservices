@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8083
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/microservices_hotel_service
+    url: jdbc:mysql://localhost:3306/microservices_rating_service
     username: root
     password: Ashu@123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,7 +13,7 @@ spring:
       ddl-auto: update
     show-sql: true
   application:
-    name: USER-SERVICE
+    name: RATING-SERVICE
 
 eureka:
   instance:
@@ -23,4 +23,3 @@ eureka:
     register-with-eureka: true     # Enable registration of this service with Eureka.
     service-url:
       defaultZone: http://localhost:8761/eureka  # Eureka server URL
-

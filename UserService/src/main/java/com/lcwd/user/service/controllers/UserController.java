@@ -1,5 +1,6 @@
 package com.lcwd.user.service.controllers;
 
+import com.lcwd.user.service.dto.UserDto;
 import com.lcwd.user.service.entities.User;
 import com.lcwd.user.service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,11 @@ public class UserController {
     }
 
     // get a single user
-   @GetMapping("/{id}")
-   public ResponseEntity<User> getUser(@PathVariable String id ){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(id));
-   }
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable String id) {
+        UserDto userDto = userService.getUser(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
 
    @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
