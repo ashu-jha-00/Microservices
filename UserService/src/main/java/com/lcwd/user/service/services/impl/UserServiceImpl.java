@@ -6,6 +6,8 @@ import com.lcwd.user.service.dto.UserDto;
 
 import com.lcwd.user.service.entities.User;
 import com.lcwd.user.service.exception.ResourceNotFoundException;
+import com.lcwd.user.service.external.services.HotelService;
+import com.lcwd.user.service.external.services.RatingService;
 import com.lcwd.user.service.repositories.UserRepository;
 import com.lcwd.user.service.services.UserService;
 import org.slf4j.Logger;
@@ -25,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private HotelService hotelService;
+
+    @Autowired
+    private RatingService ratingService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -88,15 +96,18 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource with given id not found"));
 
-        Rating[] ratingsOfUser = restTemplate.getForObject(
-                "http://RATING-SERVICE/ratings/users/" + user.getUserId(),
-                Rating[].class);
+//        Rating[] ratingsOfUser = restTemplate.getForObject(
+//                "http://RATING-SERVICE/ratings/users/" + user.getUserId(),
+//                Rating[].class);
 
-        List<Rating> ratingList = Arrays.stream(ratingsOfUser)
+        List<Rating> ratingsOfUser = ratingService.getRatingsByUserId(user.getUserId());
+
+        List<Rating> ratingList = ratingsOfUser.stream()
                 .map(rating -> {
-                    String hotelUrl = "http://HOTEL-SERVICE/hotels/" + rating.getHotelId();
-                    Hotel hotel = restTemplate.getForObject(hotelUrl, Hotel.class);
+//                    String hotelUrl = "http://HOTEL-SERVICE/hotels/" + rating.getHotelId();
+//                    Hotel hotel = restTemplate.getForObject(hotelUrl, Hotel.class);
 
+                    Hotel hotel = hotelService.getHotel(rating.getHotelId());
 
                     rating.setHotel(hotel);
                     return rating;
