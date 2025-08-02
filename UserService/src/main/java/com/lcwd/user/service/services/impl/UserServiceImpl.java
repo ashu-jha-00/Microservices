@@ -89,13 +89,15 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("Resource with given id not found"));
 
         Rating[] ratingsOfUser = restTemplate.getForObject(
-                "http://localhost:8083/ratings/users/" + user.getUserId(),
+                "http://RATING-SERVICE/ratings/users/" + user.getUserId(),
                 Rating[].class);
 
         List<Rating> ratingList = Arrays.stream(ratingsOfUser)
                 .map(rating -> {
-                    String hotelUrl = "http://localhost:8082/hotels/" + rating.getHotelId();
+                    String hotelUrl = "http://HOTEL-SERVICE/hotels/" + rating.getHotelId();
                     Hotel hotel = restTemplate.getForObject(hotelUrl, Hotel.class);
+
+
                     rating.setHotel(hotel);
                     return rating;
                 })
